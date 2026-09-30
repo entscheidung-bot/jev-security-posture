@@ -1,0 +1,75 @@
+name: Generate Executive Security Posture Report
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target Cloud Environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+          - all
+      risk_threshold:
+        description: 'Minimum Business Impact to Alert (1-5)'
+        required: true
+        default: '3'
+        type: choice
+        options:
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+      notify_executives:
+        description: 'Send brief to Executive Slack / Teams channel'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  triage-and-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests typesafe-sdk
+
+      - name: Execute Jev Security Posture Triage Engine
+        env:
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+          DATADOG_APP_KEY: ${{ secrets.DATADOG_APP_KEY }}
+          WIZ_CLIENT_ID: ${{ secrets.WIZ_CLIENT_ID }}
+          WIZ_CLIENT_SECRET: ${{ secrets.WIZ_CLIENT_SECRET }}
+          ENVIRONMENT: ${{ inputs.environment }}
+          RISK_THRESHOLD: ${{ inputs.risk_threshold }}
+        run: |
+          python scripts/triage_engine.py
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages

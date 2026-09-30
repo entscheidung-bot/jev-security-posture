@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Posture Engine // Executive Architecture & Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --card-bg: #111114;
+      --card-border: #27272a;
+      --text-main: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --text-dim: #71717a;
+      --swiss-red: #ff3b30;
+      --swiss-red-soft: rgba(255, 59, 48, 0.12);
+      --swiss-blue: #0066ff;
+      --swiss-blue-soft: rgba(0, 102, 255, 0.12);
+      --swiss-green: #10b981;
+      --swiss-green-soft: rgba(16, 185, 129, 0.12);
+      --swiss-amber: #f59e0b;
+      --swiss-amber-soft: rgba(245, 158, 11, 0.12);
+      --grid-line: #27272a;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding: 0;
+    }
+
+    /* Swiss Layout Grid Container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      border-left: 1px solid var(--grid-line);
+      border-right: 1px solid var(--grid-line);
+      background-color: var(--bg);
+      min-height: 100vh;
+    }
+
+    /* Top Metadata Bar */
+    .meta-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--grid-line);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      background: #000;
+    }
+
+    .meta-item {
+      padding: 14px 24px;
+      border-right: 1px solid var(--grid-line);
+      color: var(--text-dim);
+    }
+
+    .meta-item:last-child {
+      border-right: none;
+    }
+
+    .meta-item span {
+      color: var(--text-main);
+      display: block;
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-weight: 500;
+    }
+
+    /* Header Section */
+    header {
+      padding: 64px 48px;
+      border-bottom: 1px solid var(--grid-line);
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      align-items: flex-end;
+    }
+
+    .header-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--swiss-red);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+
+    .header-sub {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      margin-top: 16px;
+      max-width: 680px;
+      font-weight: 400;
+    }
+
+    .quick-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 24px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+      font-family: var(--font-mono);
+    }
+
+    .btn-primary {
+      background: var(--text-main);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: var(--grid-line);
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--text-muted);
+      background: var(--card-bg);
+    }
+
+    /* Metric Strip: Swiss Statistical Display */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--grid-line);
+      background: var(--card-bg);
+    }
+
+    .metric-cell {
+      padding: 36px 32px;
+      border-right: 1px solid var(--grid-line);
+    }
+
+    .metric-cell:last-child {
+      border-right: none;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .metric-value {
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-sub {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-pill {
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      border-radius: 2px;
+    }
+
+    .badge-red { background: var(--swiss-red-soft); color: var(--swiss-red); border: 1px solid rgba(255, 59, 48, 0.3); }
+    .badge-green { background: var(--swiss-green-soft); color: var(--swiss-green); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-blue { background: var(--swiss-blue-soft); color: var(--swiss-blue); border: 1px solid rgba(0, 102, 255, 0.3); }
+    .badge-amber { background: var(--swiss-amber-soft); color: var(--swiss-amber); border: 1px solid rgba(245, 158, 11, 0.3); }
+
+    /* Main Content Sections */
+    section {
+      border-bottom: 1px solid var(--grid-line);
+      padding: 64px 48px;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--swiss-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .lead-text {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 900px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    /* Swiss Architectural Grid */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--grid-line);
+      border: 1px solid var(--grid-line);
+      margin-top: 32px;
+    }
+
+    .arch-step {
+      background: var(--card-bg);
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+
+    .step-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .step-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .step-tech {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--swiss-blue);
+      border-top: 1px solid var(--grid-line);
+      padding-top: 12px;
+    }
+
+    /* Posture Formula Box */
+    .formula-box {
+      border: 1px solid var(--grid-line);
+      background: #0d0d10;
+      padding: 40px;
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .formula-display {
+      border-right: 1px solid var(--grid-line);
+      padding-right: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .formula-equation {
+      font-family: var(--font-mono);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      padding: 16px;
+      background: #000;
+      border: 1px solid var(--grid-line);
+    }
+
+    .formula-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      font-size: 0.9rem;
+    }
+
+    .formula-list li {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 16px;
+    }
+
+    .formula-key {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--text-dim);
+    }
+
+    /* Interactive Triage Table */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--grid-line);
+      padding-bottom: 16px;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--grid-line);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 8px 14px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.15s;
+    }
+
+    .filter-btn.active {
+      background: var(--text-main);
+      color: #000;
+      border-color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .table-container {
+      border: 1px solid var(--grid-line);
+      overflow-x: auto;
+      background: #0c0c0e;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+
+    th {
+      padding: 16px 20px;
+      background: #000;
+      border-bottom: 1px solid var(--grid-line);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    td {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--grid-line);
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .cell-id {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .cell-asset {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Workflow & Code Section */
+    .code-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .code-card {
+      background: #050507;
+      border: 1px solid var(--grid-line);
+      padding: 24px;
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--grid-line);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    pre {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      line-height: 1.6;
+      color: #d4d4d8;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* Footer */
+    footer {
+      padding: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      background: #000;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .meta-bar, .metric-grid, .arch-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .formula-box, header, .code-grid {
+        grid-template-columns: 1fr;
+      }
+      .formula-display {
+        border-right: none;
+        border-bottom: 1px solid var(--grid-line);
+        padding-right: 0;
+        padding-bottom: 24px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .meta-bar, .metric-grid, .arch-grid {
+        grid-template-columns: 1fr;
+      }
+      section, header {
+        padding: 40px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Top Meta Bar -->
+  <div class="meta-bar">
+    <div class="meta-item">Organization // Division <span>Enterprise InfoSec & Cloud SecOps</span></div>
+    <div class="meta-item">Security Engine <span>TypeSafe Jev + Datadog + Wiz</span></div>
+    <div class="meta-item">Execution Mode <span>GitHub Actions (Dispatch)</span></div>
+    <div class="meta-item">Confidentiality <span>Restricted // Executive Briefing</span></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div>
+      <div class="header-tag">Executive Decision Blueprint</div>
+      <h1>Enterprise Security Posture Engine</h1>
+      <p class="header-sub">
+        Transforming raw scanner noise from Datadog Compliance and Wiz CNAPP into actionable, context-aware business risk metrics using TypeSafe Jev System One decision models.
+      </p>
+    </div>
+    <div class="quick-actions">
+      <a href="#triage-simulator" class="btn btn-primary">Live Triage Simulator</a>
+      <a href="#workflow-dispatch" class="btn btn-outline">Trigger GitHub Action</a>
+    </div>
+  </header>
+
+  <!-- Metric Strip -->
+  <div class="metric-grid">
+    <div class="metric-cell">
+      <div class="metric-label">Raw Ingested Alerts <span class="badge-pill badge-red">Wiz + Datadog</span></div>
+      <div class="metric-value">1,428</div>
+      <div class="metric-sub">High/Critical CVEs + Compliance violations</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-label">Material Business Risks <span class="badge-pill badge-red">P0 / P1 Focus</span></div>
+      <div class="metric-value" style="color: var(--swiss-red);">14</div>
+      <div class="metric-sub">Public-facing + Active exploit + No WAF</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-label">Executive Noise Reduction <span class="badge-pill badge-green">Efficiency</span></div>
+      <div class="metric-value" style="color: var(--swiss-green);">99.0%</div>
+      <div class="metric-sub">False positives & contained items pruned</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-label">Net Posture Rating <span class="badge-pill badge-blue">Grade A-</span></div>
+      <div class="metric-value" style="color: var(--swiss-blue);">88<span style="font-size: 1.5rem;">/100</span></div>
+      <div class="metric-sub">Up 14% post-compensating control filter</div>
+    </div>
+  </div>
+
+  <!-- Section 1: Demystifying "Security Posture" -->
+  <section>
+    <div class="section-eyebrow">01 // Problem Definition</div>
+    <h2>What "Security Posture" Actually Means</h2>
+    <p class="lead-text">
+      Vulnerability scanners (Wiz) and compliance engines (Datadog) generate exhaustive lists of theoretical flaws. 
+      To an executive, <strong>raw counts do not equal risk</strong>. An unpatched CLI tool on an ephemeral CI runner is not equivalent to a remote-code-execution vulnerability on an internet-facing payment gateway.
+    </p>
+
+    <div class="formula-box">
+      <div class="formula-display">
+        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; font-weight: 600;">The Executive Posture Formula</div>
+        <div class="formula-equation">
+          Risk = (Likelihood × Asset Impact) − Compensating Controls
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          True posture measures <strong>residual business exposure</strong> after network boundaries, IAM policies, and active mitigations are accounted for.
+        </p>
+      </div>
+      <div>
+        <ul class="formula-list">
+          <li>
+            <span class="formula-key">Likelihood:</span>
+            <span>Is the asset routed to the public internet? Is the vulnerability in the CISA KEV (Known Exploited Vulnerabilities) or carrying high EPSS?</span>
+          </li>
+          <li>
+            <span class="formula-key">Asset Impact:</span>
+            <span>Does the workload process Tier-1 customer PII/payments, or is it an internal staging testbed?</span>
+          </li>
+          <li>
+            <span class="formula-key">Controls:</span>
+            <span>Is the host behind Cloudflare WAF, strict VPC mTLS, or read-only container rootfs?</span>
+          </li>
+          <li>
+            <span class="formula-key">Jev Verdict:</span>
+            <span>Classifies into <code style="color:var(--swiss-red)">MATERIAL_RISK</code>, <code style="color:var(--swiss-amber)">CONTAINED_RESIDUAL</code>, or <code style="color:var(--text-dim)">NOISE_SUPPRESSED</code>.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Architecture Blueprint -->
+  <section>
+    <div class="section-eyebrow">02 // System Architecture</div>
+    <h2>The 4-Stage Posture Pipeline</h2>
+    <p class="lead-text">
+      How Datadog CSM and Wiz feed into the TypeSafe Jev Decision Engine and output executive-ready briefings on demand.
+    </p>
+
+    <div class="arch-grid">
+      <div class="arch-step">
+        <div>
+          <div class="step-num">STAGE // 01</div>
+          <div class="step-title">Scanner Ingestion</div>
+          <div class="step-desc">
+            Pulls cloud compliance events from Datadog API and container/IAM exposure graphs from Wiz GraphQL API.
+          </div>
+        </div>
+        <div class="step-tech">Datadog CSM API • Wiz GraphQL</div>
+      </div>
+
+      <div class="arch-step">
+        <div>
+          <div class="step-num">STAGE // 02</div>
+          <div class="step-title">Context Matrix</div>
+          <div class="step-desc">
+            Enriches each raw finding with internal CMDB facts: Internet ingress status, Asset Tier (1, 2, 3), and active WAF rules.
+          </div>
+        </div>
+        <div class="step-tech">AWS Route53 • VPC Topology • CMDB</div>
+      </div>
+
+      <div class="arch-step">
+        <div>
+          <div class="step-num">STAGE // 03</div>
+          <div class="step-title">Jev Decision Engine</div>
+          <div class="step-desc">
+            Calls TypeSafe Jev System One model. Delivers sub-100ms typed classification (Choice), business impact (Score), and exploitability (Noul).
+          </div>
+        </div>
+        <div class="step-tech">TypeSafe Jev SDK • Fast Probabilities</div>
+      </div>
+
+      <div class="arch-step">
+        <div>
+          <div class="step-num">STAGE // 04</div>
+          <div class="step-title">Executive Action</div>
+          <div class="step-desc">
+            Generates this Swiss-designed report, pushes to GitHub Pages, and dispatches executive summaries to Slack/Teams.
+          </div>
+        </div>
+        <div class="step-tech">GitHub Actions • Pages • Webhooks</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Live Triage Simulator -->
+  <section id="triage-simulator">
+    <div class="section-eyebrow">03 // Interactive Evidence</div>
+    <h2>Live Findings Triage Simulator</h2>
+    <p class="lead-text">
+      Filter below to inspect how the Jev decision layer separates genuine business threats from scanner alert spam.
+    </p>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterFindings('ALL', this)">All Findings (8)</button>
+      <button class="filter-btn" onclick="filterFindings('MATERIAL', this)">Material Business Risk (2)</button>
+      <button class="filter-btn" onclick="filterFindings('CONTAINED', this)">Contained Residual (4)</button>
+      <button class="filter-btn" onclick="filterFindings('SUPPRESSED', this)">Suppressed Noise (2)</button>
+    </div>
+
+    <div class="table-container">
+      <table id="findings-table">
+        <thead>
+          <tr>
+            <th>Finding ID</th>
+            <th>Source</th>
+            <th>Vulnerability / Policy</th>
+            <th>Asset & Tier</th>
+            <th>Exposure / Controls</th>
+            <th>Jev Decision</th>
+            <th>Impact</th>
+            <th>Executive Remediation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Findings injected by JS -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Section 4: GitHub Actions Executive Trigger -->
+  <section id="workflow-dispatch">
+    <div class="section-eyebrow">04 // Operationalization</div>
+    <h2>Executive GitHub Actions Workflow</h2>
+    <p class="lead-text">
+      Executives and team leads do not need terminal access. A clean GitHub <code>workflow_dispatch</code> form triggers on-demand re-evaluations.
+    </p>
+
+    <div class="code-grid">
+      <div class="code-card">
+        <div class="code-header">
+          <span>.github/workflows/generate-posture-report.yml</span>
+          <span>YAML</span>
+        </div>
+        <pre><code>name: Generate Executive Security Posture Report
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target Cloud Environment'
+        required: true
+        default: 'production'
+        type: choice
+        options: [production, staging, all]
+      risk_threshold:
+        description: 'Minimum Business Impact to Alert (1-5)'
+        required: true
+        default: '3'
+        type: choice
+        options: ['1', '2', '3', '4', '5']
+      notify_executives:
+        description: 'Send brief to Executive Slack'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  triage-and-report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install requests typesafe-sdk
+      - name: Run Jev Triage Engine
+        env:
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+          WIZ_CLIENT_ID: ${{ secrets.WIZ_CLIENT_ID }}
+        run: python scripts/triage_engine.py
+      - name: Publish to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./</code></pre>
+      </div>
+
+      <div class="code-card">
+        <div class="code-header">
+          <span>scripts/triage_engine.py (Jev System One Core)</span>
+          <span>Python</span>
+        </div>
+        <pre><code>from typesafe_sdk import Choice, Noul, Score, TypeSafeClient
+
+def triage_vulnerability(finding):
+    with TypeSafeClient() as client:
+        return client.system_one(
+            state={
+                "cve": finding.cve_id,
+                "asset_tier": finding.asset_tier,
+                "is_internet_exposed": finding.is_internet_exposed,
+                "has_waf": finding.has_compensating_controls,
+                "is_kev": finding.is_cisa_kev
+            },
+            questions=[
+                Choice(
+                    id="triage_verdict",
+                    question="Classify executive business risk",
+                    options=[
+                        "MATERIAL_BUSINESS_RISK",
+                        "CONTAINED_RESIDUAL_RISK",
+                        "NOISE_SUPPRESSED"
+                    ]
+                ),
+                Score(id="impact_score", min=1, max=5),
+                Noul(id="is_directly_exploitable")
+            ]
+        )</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div>BUILT WITH TYPE-SAFE JEV // SWISS DESIGN PRINCIPLES</div>
+    <div>CONFIDENTIAL & RESTRICTED • ENTERPRISE SECURITY POSTURE</div>
+  </footer>
+</div>
+
+<script>
+  const findingsData = [
+    {
+      id: "WIZ-9821",
+      source: "Wiz",
+      title: "Remote Code Execution (CVE-2024-3400)",
+      asset: "api-gateway-prod-us-east",
+      tier: "Tier-1 (Payments/PII)",
+      exposure: "Public Internet // No WAF",
+      decision: "MATERIAL_BUSINESS_RISK",
+      impact: 5,
+      remediation: "P0: Immediate virtual patch / ingress isolation."
+    },
+    {
+      id: "WIZ-4412",
+      source: "Wiz",
+      title: "Unrestricted S3 Bucket Access via IAM",
+      asset: "customer-receipts-archive",
+      tier: "Tier-1 (Payments/PII)",
+      exposure: "Direct IAM Route // Public Read",
+      decision: "MATERIAL_BUSINESS_RISK",
+      impact: 4,
+      remediation: "P0: Apply S3 Public Access Block immediately."
+    },
+    {
+      id: "DD-SEC-101",
+      source: "Datadog",
+      title: "CIS 5.2.1 Root login permitted in sshd",
+      asset: "worker-node-prod-04",
+      tier: "Tier-2 (App Internal)",
+      exposure: "Private Subnet // Bastion Only",
+      decision: "CONTAINED_RESIDUAL_RISK",
+      impact: 2,
+      remediation: "P2: Remediate via Ansible in standard 30d sprint."
+    },
+    {
+      id: "DD-SEC-204",
+      source: "Datadog",
+      title: "Prototype pollution in dev runner (CVE-2023-45133)",
+      asset: "jenkins-worker-ephemeral-8b",
+      tier: "Tier-3 (CI/Dev)",
+      exposure: "Ephemeral Pod // Zero Network Route",
+      decision: "NOISE_SUPPRESSED",
+      impact: 1,
+      remediation: "P4: Rebuild container image in next pipeline refresh."
+    },
+    {
+      id: "WIZ-1102",
+      source: "Wiz",
+      title: "OpenSSL Out-of-bounds Read in sidecar",
+      asset: "telemetry-agent-pod-7",
+      tier: "Tier-2 (App Internal)",
+      exposure: "Localhost Only // mTLS Active",
+      decision: "CONTAINED_RESIDUAL_RISK",
+      impact: 2,
+      remediation: "P3: Update base sidecar daemonset during maintenance."
+    },
+    {
+      id: "DD-SEC-305",
+      source: "Datadog",
+      title: "Kubernetes Secret without KMS envelope",
+      asset: "staging-cluster-k8s",
+      tier: "Tier-3 (CI/Dev)",
+      exposure: "Isolated Sandbox // Staging Creds",
+      decision: "NOISE_SUPPRESSED",
+      impact: 1,
+      remediation: "P4: Enable KMS provider on cluster rebuild."
+    },
+    {
+      id: "WIZ-6721",
+      source: "Wiz",
+      title: "Port 22 SSH reachable from 0.0.0.0/0",
+      asset: "bastion-corp-dmz",
+      tier: "Tier-1 (Payments/PII)",
+      exposure: "MFA Gateway Active // Cloudflare Zero Trust",
+      decision: "CONTAINED_RESIDUAL_RISK",
+      impact: 2,
+      remediation: "P2: Tighten security group to Tailscale IPs."
+    },
+    {
+      id: "DD-SEC-412",
+      source: "Datadog",
+      title: "Weak SSH ciphers enabled on internal proxy",
+      asset: "db-proxy-internal-2",
+      tier: "Tier-2 (App Internal)",
+      exposure: "Private VPC Only // Transit Gateway",
+      decision: "CONTAINED_RESIDUAL_RISK",
+      impact: 2,
+      remediation: "P3: Update sshd_config in next AMI cycle."
+    }
+  ];
+
+  function renderTable(data) {
+    const tbody = document.querySelector("#findings-table tbody");
+    tbody.innerHTML = "";
+    data.forEach(item => {
+      let badgeClass = "badge-blue";
+      if (item.decision === "MATERIAL_BUSINESS_RISK") badgeClass = "badge-red";
+      if (item.decision === "CONTAINED_RESIDUAL_RISK") badgeClass = "badge-amber";
+      if (item.decision === "NOISE_SUPPRESSED") badgeClass = "badge-green";
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="cell-id">${item.id}</td>
+        <td><span class="badge-pill badge-blue">${item.source}</span></td>
+        <td><strong>${item.title}</strong></td>
+        <td>
+          <div>${item.asset}</div>
+          <div class="cell-asset">${item.tier}</div>
+        </td>
+        <td>${item.exposure}</td>
+        <td><span class="badge-pill ${badgeClass}">${item.decision.replace(/_/g, ' ')}</span></td>
+        <td style="font-family: var(--font-mono); font-weight: 700;">${item.impact}/5</td>
+        <td style="font-size: 0.8rem; color: var(--text-muted);">${item.remediation}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function filterFindings(type, btn) {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    if (type === "ALL") {
+      renderTable(findingsData);
+    } else if (type === "MATERIAL") {
+      renderTable(findingsData.filter(f => f.decision === "MATERIAL_BUSINESS_RISK"));
+    } else if (type === "CONTAINED") {
+      renderTable(findingsData.filter(f => f.decision === "CONTAINED_RESIDUAL_RISK"));
+    } else if (type === "SUPPRESSED") {
+      renderTable(findingsData.filter(f => f.decision === "NOISE_SUPPRESSED"));
+    }
+  }
+
+  // Initial render
+  renderTable(findingsData);
+</script>
+
+</body>
+</html>
