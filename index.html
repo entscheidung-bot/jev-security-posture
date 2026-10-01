@@ -23,6 +23,8 @@
       --swiss-green-soft: rgba(16, 185, 129, 0.12);
       --swiss-amber: #f59e0b;
       --swiss-amber-soft: rgba(245, 158, 11, 0.12);
+      --swiss-purple: #a855f7;
+      --swiss-purple-soft: rgba(168, 85, 247, 0.12);
       --grid-line: #27272a;
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
@@ -43,9 +45,8 @@
       padding: 0;
     }
 
-    /* Swiss Layout Grid Container */
     .container {
-      max-width: 1280px;
+      max-width: 1320px;
       margin: 0 auto;
       border-left: 1px solid var(--grid-line);
       border-right: 1px solid var(--grid-line);
@@ -53,7 +54,6 @@
       min-height: 100vh;
     }
 
-    /* Top Metadata Bar */
     .meta-bar {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -83,7 +83,6 @@
       font-weight: 500;
     }
 
-    /* Header Section */
     header {
       padding: 64px 48px;
       border-bottom: 1px solid var(--grid-line);
@@ -116,7 +115,7 @@
       color: var(--text-muted);
       font-size: 1.15rem;
       margin-top: 16px;
-      max-width: 680px;
+      max-width: 720px;
       font-weight: 400;
     }
 
@@ -163,7 +162,6 @@
       background: var(--card-bg);
     }
 
-    /* Metric Strip: Swiss Statistical Display */
     .metric-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -222,8 +220,8 @@
     .badge-green { background: var(--swiss-green-soft); color: var(--swiss-green); border: 1px solid rgba(16, 185, 129, 0.3); }
     .badge-blue { background: var(--swiss-blue-soft); color: var(--swiss-blue); border: 1px solid rgba(0, 102, 255, 0.3); }
     .badge-amber { background: var(--swiss-amber-soft); color: var(--swiss-amber); border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-purple { background: var(--swiss-purple-soft); color: var(--swiss-purple); border: 1px solid rgba(168, 85, 247, 0.3); }
 
-    /* Main Content Sections */
     section {
       border-bottom: 1px solid var(--grid-line);
       padding: 64px 48px;
@@ -250,12 +248,42 @@
     .lead-text {
       font-size: 1.15rem;
       color: var(--text-muted);
-      max-width: 900px;
+      max-width: 960px;
       line-height: 1.6;
       margin-bottom: 40px;
     }
 
-    /* Swiss Architectural Grid */
+    /* Comparison & Principle Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--grid-line);
+      padding: 32px;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* Architectural Pipeline Grid */
     .arch-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -303,63 +331,46 @@
       padding-top: 12px;
     }
 
-    /* Posture Formula Box */
-    .formula-box {
+    /* Toxic Triad Diagram */
+    .triad-box {
       border: 1px solid var(--grid-line);
       background: #0d0d10;
-      padding: 40px;
-      margin-top: 32px;
+      padding: 36px;
+      margin-top: 24px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
     }
 
-    .formula-display {
-      border-right: 1px solid var(--grid-line);
-      padding-right: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .formula-equation {
-      font-family: var(--font-mono);
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 16px;
-      padding: 16px;
+    .triad-pillar {
       background: #000;
       border: 1px solid var(--grid-line);
+      padding: 24px;
     }
 
-    .formula-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      font-size: 0.9rem;
-    }
-
-    .formula-list li {
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 16px;
-    }
-
-    .formula-key {
+    .triad-pillar-title {
       font-family: var(--font-mono);
-      font-weight: 600;
-      color: var(--text-dim);
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--swiss-red);
+      margin-bottom: 12px;
     }
 
-    /* Interactive Triage Table */
+    .triad-pillar p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Table */
     .filter-bar {
       display: flex;
       gap: 8px;
       margin-bottom: 24px;
       border-bottom: 1px solid var(--grid-line);
       padding-bottom: 16px;
+      flex-wrap: wrap;
     }
 
     .filter-btn {
@@ -432,7 +443,6 @@
       color: var(--text-muted);
     }
 
-    /* Workflow & Code Section */
     .code-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -467,7 +477,6 @@
       white-space: pre;
     }
 
-    /* Footer */
     footer {
       padding: 48px;
       display: flex;
@@ -479,24 +488,17 @@
       background: #000;
     }
 
-    /* Responsive */
     @media (max-width: 1024px) {
-      .meta-bar, .metric-grid, .arch-grid {
+      .meta-bar, .metric-grid, .arch-grid, .triad-box {
         grid-template-columns: repeat(2, 1fr);
       }
-      .formula-box, header, .code-grid {
+      header, .code-grid, .grid-2 {
         grid-template-columns: 1fr;
-      }
-      .formula-display {
-        border-right: none;
-        border-bottom: 1px solid var(--grid-line);
-        padding-right: 0;
-        padding-bottom: 24px;
       }
     }
 
     @media (max-width: 640px) {
-      .meta-bar, .metric-grid, .arch-grid {
+      .meta-bar, .metric-grid, .arch-grid, .triad-box {
         grid-template-columns: 1fr;
       }
       section, header {
@@ -511,9 +513,9 @@
   <!-- Top Meta Bar -->
   <div class="meta-bar">
     <div class="meta-item">Organization // Division <span>Enterprise InfoSec & Cloud SecOps</span></div>
-    <div class="meta-item">Security Engine <span>TypeSafe Jev + Datadog + Wiz</span></div>
+    <div class="meta-item">Decision Engine <span>TypeSafe Jev + Cloudflare VVS Principles</span></div>
     <div class="meta-item">Execution Mode <span>GitHub Actions (Dispatch)</span></div>
-    <div class="meta-item">Confidentiality <span>Restricted // Executive Briefing</span></div>
+    <div class="meta-item">Classification <span>Restricted // Executive Briefing</span></div>
   </div>
 
   <!-- Header -->
@@ -522,12 +524,12 @@
       <div class="header-tag">Executive Decision Blueprint</div>
       <h1>Enterprise Security Posture Engine</h1>
       <p class="header-sub">
-        Transforming raw scanner noise from Datadog Compliance and Wiz CNAPP into actionable, context-aware business risk metrics using TypeSafe Jev System One decision models.
+        Filtering scanner noise from Datadog and Wiz into true business risk. Combining Cloudflare's adversarial validation principles with TypeSafe Jev System One decision models.
       </p>
     </div>
     <div class="quick-actions">
       <a href="#triage-simulator" class="btn btn-primary">Live Triage Simulator</a>
-      <a href="#workflow-dispatch" class="btn btn-outline">Trigger GitHub Action</a>
+      <a href="#jev-prompt-design" class="btn btn-outline">Jev Prompt Architecture</a>
     </div>
   </header>
 
@@ -536,134 +538,215 @@
     <div class="metric-cell">
       <div class="metric-label">Raw Ingested Alerts <span class="badge-pill badge-red">Wiz + Datadog</span></div>
       <div class="metric-value">1,428</div>
-      <div class="metric-sub">High/Critical CVEs + Compliance violations</div>
+      <div class="metric-sub">Atomic configuration & CVE rules</div>
     </div>
     <div class="metric-cell">
       <div class="metric-label">Material Business Risks <span class="badge-pill badge-red">P0 / P1 Focus</span></div>
       <div class="metric-value" style="color: var(--swiss-red);">14</div>
-      <div class="metric-sub">Public-facing + Active exploit + No WAF</div>
+      <div class="metric-sub">Toxic Triad confirmed exploitable</div>
     </div>
     <div class="metric-cell">
-      <div class="metric-label">Executive Noise Reduction <span class="badge-pill badge-green">Efficiency</span></div>
-      <div class="metric-value" style="color: var(--swiss-green);">99.0%</div>
-      <div class="metric-sub">False positives & contained items pruned</div>
+      <div class="metric-label">Provider Plumbing Suppressed <span class="badge-pill badge-purple">Jev Demoted</span></div>
+      <div class="metric-value" style="color: var(--swiss-purple);">412</div>
+      <div class="metric-sub">ALB logs, ACM keys, VPC flow logs</div>
     </div>
     <div class="metric-cell">
       <div class="metric-label">Net Posture Rating <span class="badge-pill badge-blue">Grade A-</span></div>
       <div class="metric-value" style="color: var(--swiss-blue);">88<span style="font-size: 1.5rem;">/100</span></div>
-      <div class="metric-sub">Up 14% post-compensating control filter</div>
+      <div class="metric-sub">Based on reachable business risk</div>
     </div>
   </div>
 
-  <!-- Section 1: Demystifying "Security Posture" -->
+  <!-- Section 1: The Scanner False Alarm Problem -->
   <section>
-    <div class="section-eyebrow">01 // Problem Definition</div>
-    <h2>What "Security Posture" Actually Means</h2>
+    <div class="section-eyebrow">01 // Problem Statement</div>
+    <h2>Why Scanners Cry Wolf in Cloud Architectures</h2>
     <p class="lead-text">
-      Vulnerability scanners (Wiz) and compliance engines (Datadog) generate exhaustive lists of theoretical flaws. 
-      To an executive, <strong>raw counts do not equal risk</strong>. An unpatched CLI tool on an ephemeral CI runner is not equivalent to a remote-code-execution vulnerability on an internet-facing payment gateway.
+      Tools like Wiz and Datadog evaluate rules atomically. In modern cloud architecture, atomic evaluations without environmental context produce severe false alarms.
     </p>
 
-    <div class="formula-box">
-      <div class="formula-display">
-        <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; font-weight: 600;">The Executive Posture Formula</div>
-        <div class="formula-equation">
-          Risk = (Likelihood × Asset Impact) − Compensating Controls
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">
+          <span>ALB Access Logs S3 Bucket</span>
+          <span class="badge-pill badge-amber">False Critical</span>
         </div>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">
-          True posture measures <strong>residual business exposure</strong> after network boundaries, IAM policies, and active mitigations are accounted for.
+        <p>
+          <strong>Scanner Alert:</strong> <em>"S3 Bucket allows external, unmanaged AWS principal PutObject access."</em><br><br>
+          <strong>Cloud Reality:</strong> AWS Application Load Balancers require write access by the AWS regional service delivery account (e.g. <code>127311923021</code> in us-east-1). The bucket policy limits the principal to <code>PutObject</code> on log prefixes. It is an operational prerequisite, not an exposure.
         </p>
       </div>
-      <div>
-        <ul class="formula-list">
-          <li>
-            <span class="formula-key">Likelihood:</span>
-            <span>Is the asset routed to the public internet? Is the vulnerability in the CISA KEV (Known Exploited Vulnerabilities) or carrying high EPSS?</span>
-          </li>
-          <li>
-            <span class="formula-key">Asset Impact:</span>
-            <span>Does the workload process Tier-1 customer PII/payments, or is it an internal staging testbed?</span>
-          </li>
-          <li>
-            <span class="formula-key">Controls:</span>
-            <span>Is the host behind Cloudflare WAF, strict VPC mTLS, or read-only container rootfs?</span>
-          </li>
-          <li>
-            <span class="formula-key">Jev Verdict:</span>
-            <span>Classifies into <code style="color:var(--swiss-red)">MATERIAL_RISK</code>, <code style="color:var(--swiss-amber)">CONTAINED_RESIDUAL</code>, or <code style="color:var(--text-dim)">NOISE_SUPPRESSED</code>.</span>
-          </li>
-        </ul>
+
+      <div class="card">
+        <div class="card-title">
+          <span>Shared ACM Multi-Domain Certificate</span>
+          <span class="badge-pill badge-amber">False High</span>
+        </div>
+        <p>
+          <strong>Scanner Alert:</strong> <em>"Multiple production domains share single TLS certificate; private key leak blast radius."</em><br><br>
+          <strong>Cloud Reality:</strong> The certificate is issued via AWS Certificate Manager (ACM). Private keys in ACM are hardware-isolated inside AWS KMS/CloudHSM and are <strong>cryptographically non-exportable</strong>. The scanner's threat model does not exist.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- Section 2: Architecture Blueprint -->
+  <!-- Section 2: Inverting the Problem via the Toxic Triad -->
   <section>
-    <div class="section-eyebrow">02 // System Architecture</div>
-    <h2>The 4-Stage Posture Pipeline</h2>
+    <div class="section-eyebrow">02 // Core Principle</div>
+    <h2>Why Enumerating Benign Patterns Fails</h2>
     <p class="lead-text">
-      How Datadog CSM and Wiz feed into the TypeSafe Jev Decision Engine and output executive-ready briefings on demand.
+      Attempting to maintain a static whitelist of "all benign cloud patterns" is impossible. AWS releases hundreds of features yearly, account IDs vary by region, and regex lists quickly decay. 
+      <strong>Instead of proving a finding is benign, we invert the burden of proof: a finding is noise unless it proves the Toxic Triad.</strong>
+    </p>
+
+    <div class="triad-box">
+      <div class="triad-pillar">
+        <div class="triad-pillar-title">1. Public Ingress Route</div>
+        <p>Does the asset have a route table with an active Internet Gateway (IGW), public IP, and non-RFC1918 routable DNS without blocking WAF?</p>
+      </div>
+      <div class="triad-pillar">
+        <div class="triad-pillar-title">2. Exploitable Primitive</div>
+        <p>Is there a validated active exploit (CISA KEV, RCE, auth bypass), or does the misconfiguration allow arbitrary unauthenticated state modification?</p>
+      </div>
+      <div class="triad-pillar">
+        <div class="triad-pillar-title">3. Sensitive Blast Radius</div>
+        <p>Does the workload possess IAM credentials or direct network peering to Tier-1 production databases, customer PII, or KMS root keys?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Cloudflare Harness Principles -->
+  <section>
+    <div class="section-eyebrow">03 // Autonomous Harness Engineering</div>
+    <h2>Adopting Cloudflare Vulnerability Harness Principles</h2>
+    <p class="lead-text">
+      Cloudflare solved agentic security evaluation across 128+ software fleets by strictly avoiding monolithic LLM prompts. Four principles govern our posture pipeline:
     </p>
 
     <div class="arch-grid">
       <div class="arch-step">
         <div>
-          <div class="step-num">STAGE // 01</div>
-          <div class="step-title">Scanner Ingestion</div>
+          <div class="step-num">PRINCIPLE // 01</div>
+          <div class="step-title">Adversarial Validation</div>
           <div class="step-desc">
-            Pulls cloud compliance events from Datadog API and container/IAM exposure graphs from Wiz GraphQL API.
+            Default scanner claims to unproven. The validator model's objective is to <em>disprove</em> the vulnerability by finding compensating architectural controls.
           </div>
         </div>
-        <div class="step-tech">Datadog CSM API • Wiz GraphQL</div>
+        <div class="step-tech">Challenge Scanner Claims</div>
       </div>
 
       <div class="arch-step">
         <div>
-          <div class="step-num">STAGE // 02</div>
-          <div class="step-title">Context Matrix</div>
+          <div class="step-num">PRINCIPLE // 02</div>
+          <div class="step-title">Reachability Proof</div>
           <div class="step-desc">
-            Enriches each raw finding with internal CMDB facts: Internet ingress status, Asset Tier (1, 2, 3), and active WAF rules.
+            Reject findings that cannot demonstrate an unbroken, executable execution path from an untrusted caller to the vulnerable component.
           </div>
         </div>
-        <div class="step-tech">AWS Route53 • VPC Topology • CMDB</div>
+        <div class="step-tech">Network & Graph Topology</div>
       </div>
 
       <div class="arch-step">
         <div>
-          <div class="step-num">STAGE // 03</div>
-          <div class="step-title">Jev Decision Engine</div>
+          <div class="step-num">PRINCIPLE // 03</div>
+          <div class="step-title">Inverted Index Dedup</div>
           <div class="step-desc">
-            Calls TypeSafe Jev System One model. Delivers sub-100ms typed classification (Choice), business impact (Score), and exploitability (Noul).
+            Cluster findings by cloud architectural pattern (e.g. all S3 access log buckets). Decide once using Jev, apply verdict across the fleet.
           </div>
         </div>
-        <div class="step-tech">TypeSafe Jev SDK • Fast Probabilities</div>
+        <div class="step-tech">O(1) Pattern Evaluation</div>
       </div>
 
       <div class="arch-step">
         <div>
-          <div class="step-num">STAGE // 04</div>
-          <div class="step-title">Executive Action</div>
+          <div class="step-num">PRINCIPLE // 04</div>
+          <div class="step-title">Decoupled State</div>
           <div class="step-desc">
-            Generates this Swiss-designed report, pushes to GitHub Pages, and dispatches executive summaries to Slack/Teams.
+            Keep findings in flat JSON/SQLite. Keep agent context window under 25% capacity to eliminate hallucinations and memory loss.
           </div>
         </div>
-        <div class="step-tech">GitHub Actions • Pages • Webhooks</div>
+        <div class="step-tech">Zero Context Explosion</div>
       </div>
     </div>
   </section>
 
-  <!-- Section 3: Live Triage Simulator -->
+  <!-- Section 4: Jev Prompt Architecture -->
+  <section id="jev-prompt-design">
+    <div class="section-eyebrow">04 // Decision Model Design</div>
+    <h2>TypeSafe Jev System One Prompt Architecture</h2>
+    <p class="lead-text">
+      Jev replaces slow, non-deterministic LLMs with typed, sub-100ms probabilities. Here is the exact contract used to evaluate cloud operational patterns:
+    </p>
+
+    <div class="code-grid">
+      <div class="code-card">
+        <div class="code-header">
+          <span>Jev State Context (Input)</span>
+          <span>JSON</span>
+        </div>
+        <pre><code>{
+  "finding_id": "WIZ-S3-ALB-01",
+  "rule": "S3 bucket allows external unmanaged principal access",
+  "resource_type": "AWS::S3::Bucket",
+  "resource_name": "prod-alb-access-logs-us-east-1",
+  "cloud_evidence": {
+    "principal": "arn:aws:iam::127311923021:root",
+    "action": "s3:PutObject",
+    "condition": "ArnEquals: aws:SourceArn: arn:aws:elasticloadbalancing:...",
+    "key_management": "AWS_MANAGED_NON_EXPORTABLE"
+  },
+  "asset_context": {
+    "environment": "production",
+    "data_classification": "access-logs",
+    "network_exposure": "internal-storage"
+  }
+}</code></pre>
+      </div>
+
+      <div class="code-card">
+        <div class="code-header">
+          <span>TypeSafe Jev Questions (Typed Inference)</span>
+          <span>Python (typesafe-sdk)</span>
+        </div>
+        <pre><code>questions = [
+  Choice(
+    id="pattern_classification",
+    question="Classify configuration against cloud attack surface",
+    options=[
+      "CLOUD_PROVIDER_OPERATIONAL",
+      "COMPENSATED_ARCHITECTURE",
+      "MATERIAL_SECURITY_RISK",
+      "UNKNOWN_NEEDS_REVIEW"
+    ]
+  ),
+  Score(
+    id="business_impact",
+    question="Rate real business impact from 1 (benign) to 5 (critical)",
+    min=1,
+    max=5
+  ),
+  Noul(
+    id="is_data_exfiltration_possible",
+    question="Can an external attacker read or exfiltrate private data?"
+  )
+]</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Live Triage Simulator -->
   <section id="triage-simulator">
-    <div class="section-eyebrow">03 // Interactive Evidence</div>
+    <div class="section-eyebrow">05 // Interactive Evidence</div>
     <h2>Live Findings Triage Simulator</h2>
     <p class="lead-text">
-      Filter below to inspect how the Jev decision layer separates genuine business threats from scanner alert spam.
+      Inspect how the Toxic Triad and Jev decision model categorize real cloud findings:
     </p>
 
     <div class="filter-bar">
       <button class="filter-btn active" onclick="filterFindings('ALL', this)">All Findings (8)</button>
-      <button class="filter-btn" onclick="filterFindings('MATERIAL', this)">Material Business Risk (2)</button>
-      <button class="filter-btn" onclick="filterFindings('CONTAINED', this)">Contained Residual (4)</button>
+      <button class="filter-btn" onclick="filterFindings('MATERIAL', this)">Material Risk (2)</button>
+      <button class="filter-btn" onclick="filterFindings('PROVIDER', this)">Cloud Provider Ops (2)</button>
+      <button class="filter-btn" onclick="filterFindings('CONTAINED', this)">Contained Residual (2)</button>
       <button class="filter-btn" onclick="filterFindings('SUPPRESSED', this)">Suppressed Noise (2)</button>
     </div>
 
@@ -674,116 +757,22 @@
             <th>Finding ID</th>
             <th>Source</th>
             <th>Vulnerability / Policy</th>
-            <th>Asset & Tier</th>
-            <th>Exposure / Controls</th>
+            <th>Asset & Type</th>
+            <th>Exposure & Evidence</th>
             <th>Jev Decision</th>
-            <th>Impact</th>
+            <th>Score</th>
             <th>Executive Remediation</th>
           </tr>
         </thead>
         <tbody>
-          <!-- Findings injected by JS -->
         </tbody>
       </table>
     </div>
   </section>
 
-  <!-- Section 4: GitHub Actions Executive Trigger -->
-  <section id="workflow-dispatch">
-    <div class="section-eyebrow">04 // Operationalization</div>
-    <h2>Executive GitHub Actions Workflow</h2>
-    <p class="lead-text">
-      Executives and team leads do not need terminal access. A clean GitHub <code>workflow_dispatch</code> form triggers on-demand re-evaluations.
-    </p>
-
-    <div class="code-grid">
-      <div class="code-card">
-        <div class="code-header">
-          <span>.github/workflows/generate-posture-report.yml</span>
-          <span>YAML</span>
-        </div>
-        <pre><code>name: Generate Executive Security Posture Report
-
-on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Target Cloud Environment'
-        required: true
-        default: 'production'
-        type: choice
-        options: [production, staging, all]
-      risk_threshold:
-        description: 'Minimum Business Impact to Alert (1-5)'
-        required: true
-        default: '3'
-        type: choice
-        options: ['1', '2', '3', '4', '5']
-      notify_executives:
-        description: 'Send brief to Executive Slack'
-        required: false
-        type: boolean
-        default: true
-
-jobs:
-  triage-and-report:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: { python-version: '3.11' }
-      - run: pip install requests typesafe-sdk
-      - name: Run Jev Triage Engine
-        env:
-          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
-          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY }}
-          WIZ_CLIENT_ID: ${{ secrets.WIZ_CLIENT_ID }}
-        run: python scripts/triage_engine.py
-      - name: Publish to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./</code></pre>
-      </div>
-
-      <div class="code-card">
-        <div class="code-header">
-          <span>scripts/triage_engine.py (Jev System One Core)</span>
-          <span>Python</span>
-        </div>
-        <pre><code>from typesafe_sdk import Choice, Noul, Score, TypeSafeClient
-
-def triage_vulnerability(finding):
-    with TypeSafeClient() as client:
-        return client.system_one(
-            state={
-                "cve": finding.cve_id,
-                "asset_tier": finding.asset_tier,
-                "is_internet_exposed": finding.is_internet_exposed,
-                "has_waf": finding.has_compensating_controls,
-                "is_kev": finding.is_cisa_kev
-            },
-            questions=[
-                Choice(
-                    id="triage_verdict",
-                    question="Classify executive business risk",
-                    options=[
-                        "MATERIAL_BUSINESS_RISK",
-                        "CONTAINED_RESIDUAL_RISK",
-                        "NOISE_SUPPRESSED"
-                    ]
-                ),
-                Score(id="impact_score", min=1, max=5),
-                Noul(id="is_directly_exploitable")
-            ]
-        )</code></pre>
-      </div>
-    </div>
-  </section>
-
   <!-- Footer -->
   <footer>
-    <div>BUILT WITH TYPE-SAFE JEV // SWISS DESIGN PRINCIPLES</div>
+    <div>BUILT WITH TYPE-SAFE JEV // CLOUDFLARE HARNESS PRINCIPLES</div>
     <div>CONFIDENTIAL & RESTRICTED • ENTERPRISE SECURITY POSTURE</div>
   </footer>
 </div>
@@ -795,10 +784,10 @@ def triage_vulnerability(finding):
       source: "Wiz",
       title: "Remote Code Execution (CVE-2024-3400)",
       asset: "api-gateway-prod-us-east",
-      tier: "Tier-1 (Payments/PII)",
-      exposure: "Public Internet // No WAF",
+      type: "AWS::EC2::Instance (Tier-1)",
+      exposure: "Public Internet // Direct IGW Route",
       decision: "MATERIAL_BUSINESS_RISK",
-      impact: 5,
+      score: 5,
       remediation: "P0: Immediate virtual patch / ingress isolation."
     },
     {
@@ -806,77 +795,77 @@ def triage_vulnerability(finding):
       source: "Wiz",
       title: "Unrestricted S3 Bucket Access via IAM",
       asset: "customer-receipts-archive",
-      tier: "Tier-1 (Payments/PII)",
+      type: "AWS::S3::Bucket (Tier-1)",
       exposure: "Direct IAM Route // Public Read",
       decision: "MATERIAL_BUSINESS_RISK",
-      impact: 4,
+      score: 4,
       remediation: "P0: Apply S3 Public Access Block immediately."
+    },
+    {
+      id: "WIZ-S3-ALB",
+      source: "Wiz",
+      title: "ALB Logs Bucket allows external PutObject",
+      asset: "prod-app-alb-access-logs",
+      type: "AWS::S3::Bucket (Tier-2)",
+      exposure: "AWS ELB Account: 127311923021",
+      decision: "CLOUD_PROVIDER_OPERATIONAL",
+      score: 1,
+      remediation: "Noise suppressed: AWS regional ELB delivery principal prerequisite."
+    },
+    {
+      id: "WIZ-ACM-02",
+      source: "Wiz",
+      title: "Multiple domains share ACM certificate",
+      asset: "wildcard-corp-domains",
+      type: "AWS::ACM::Cert (Tier-1)",
+      exposure: "AWS Managed // KMS Hardware Isolated",
+      decision: "CLOUD_PROVIDER_OPERATIONAL",
+      score: 1,
+      remediation: "Noise suppressed: ACM private keys are non-exportable."
     },
     {
       id: "DD-SEC-101",
       source: "Datadog",
       title: "CIS 5.2.1 Root login permitted in sshd",
       asset: "worker-node-prod-04",
-      tier: "Tier-2 (App Internal)",
+      type: "EC2 Node (Tier-2)",
       exposure: "Private Subnet // Bastion Only",
       decision: "CONTAINED_RESIDUAL_RISK",
-      impact: 2,
-      remediation: "P2: Remediate via Ansible in standard 30d sprint."
+      score: 2,
+      remediation: "P3: Remediate via Ansible in standard 30d sprint."
+    },
+    {
+      id: "WIZ-6721",
+      source: "Wiz",
+      title: "Port 22 SSH open 0.0.0.0/0",
+      asset: "bastion-corp-dmz",
+      type: "Security Group (Tier-1)",
+      exposure: "Cloudflare Zero Trust / MFA Active",
+      decision: "CONTAINED_RESIDUAL_RISK",
+      score: 2,
+      remediation: "P2: Tighten security group to Cloudflare edge IPs."
     },
     {
       id: "DD-SEC-204",
       source: "Datadog",
-      title: "Prototype pollution in dev runner (CVE-2023-45133)",
+      title: "Prototype pollution in dev runner",
       asset: "jenkins-worker-ephemeral-8b",
-      tier: "Tier-3 (CI/Dev)",
+      type: "Container (Tier-3)",
       exposure: "Ephemeral Pod // Zero Network Route",
       decision: "NOISE_SUPPRESSED",
-      impact: 1,
+      score: 1,
       remediation: "P4: Rebuild container image in next pipeline refresh."
-    },
-    {
-      id: "WIZ-1102",
-      source: "Wiz",
-      title: "OpenSSL Out-of-bounds Read in sidecar",
-      asset: "telemetry-agent-pod-7",
-      tier: "Tier-2 (App Internal)",
-      exposure: "Localhost Only // mTLS Active",
-      decision: "CONTAINED_RESIDUAL_RISK",
-      impact: 2,
-      remediation: "P3: Update base sidecar daemonset during maintenance."
     },
     {
       id: "DD-SEC-305",
       source: "Datadog",
       title: "Kubernetes Secret without KMS envelope",
       asset: "staging-cluster-k8s",
-      tier: "Tier-3 (CI/Dev)",
+      type: "K8s Cluster (Tier-3)",
       exposure: "Isolated Sandbox // Staging Creds",
       decision: "NOISE_SUPPRESSED",
-      impact: 1,
+      score: 1,
       remediation: "P4: Enable KMS provider on cluster rebuild."
-    },
-    {
-      id: "WIZ-6721",
-      source: "Wiz",
-      title: "Port 22 SSH reachable from 0.0.0.0/0",
-      asset: "bastion-corp-dmz",
-      tier: "Tier-1 (Payments/PII)",
-      exposure: "MFA Gateway Active // Cloudflare Zero Trust",
-      decision: "CONTAINED_RESIDUAL_RISK",
-      impact: 2,
-      remediation: "P2: Tighten security group to Tailscale IPs."
-    },
-    {
-      id: "DD-SEC-412",
-      source: "Datadog",
-      title: "Weak SSH ciphers enabled on internal proxy",
-      asset: "db-proxy-internal-2",
-      tier: "Tier-2 (App Internal)",
-      exposure: "Private VPC Only // Transit Gateway",
-      decision: "CONTAINED_RESIDUAL_RISK",
-      impact: 2,
-      remediation: "P3: Update sshd_config in next AMI cycle."
     }
   ];
 
@@ -886,6 +875,7 @@ def triage_vulnerability(finding):
     data.forEach(item => {
       let badgeClass = "badge-blue";
       if (item.decision === "MATERIAL_BUSINESS_RISK") badgeClass = "badge-red";
+      if (item.decision === "CLOUD_PROVIDER_OPERATIONAL") badgeClass = "badge-purple";
       if (item.decision === "CONTAINED_RESIDUAL_RISK") badgeClass = "badge-amber";
       if (item.decision === "NOISE_SUPPRESSED") badgeClass = "badge-green";
 
@@ -896,11 +886,11 @@ def triage_vulnerability(finding):
         <td><strong>${item.title}</strong></td>
         <td>
           <div>${item.asset}</div>
-          <div class="cell-asset">${item.tier}</div>
+          <div class="cell-asset">${item.type}</div>
         </td>
         <td>${item.exposure}</td>
         <td><span class="badge-pill ${badgeClass}">${item.decision.replace(/_/g, ' ')}</span></td>
-        <td style="font-family: var(--font-mono); font-weight: 700;">${item.impact}/5</td>
+        <td style="font-family: var(--font-mono); font-weight: 700;">${item.score}/5</td>
         <td style="font-size: 0.8rem; color: var(--text-muted);">${item.remediation}</td>
       `;
       tbody.appendChild(tr);
@@ -915,6 +905,8 @@ def triage_vulnerability(finding):
       renderTable(findingsData);
     } else if (type === "MATERIAL") {
       renderTable(findingsData.filter(f => f.decision === "MATERIAL_BUSINESS_RISK"));
+    } else if (type === "PROVIDER") {
+      renderTable(findingsData.filter(f => f.decision === "CLOUD_PROVIDER_OPERATIONAL"));
     } else if (type === "CONTAINED") {
       renderTable(findingsData.filter(f => f.decision === "CONTAINED_RESIDUAL_RISK"));
     } else if (type === "SUPPRESSED") {
@@ -922,7 +914,6 @@ def triage_vulnerability(finding):
     }
   }
 
-  // Initial render
   renderTable(findingsData);
 </script>
 
